@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UCameraComponent;
+class ABullet;
 
 UCLASS()
 class AIRPLANEWAR_API ASpaceShip : public APawn
@@ -33,6 +34,12 @@ protected:
 
 	APlayerController* PC;
 
+	// 限定类型为子弹类
+	UPROPERTY(EditAnywhere, Category = "Fire")
+	TSubclassOf<ABullet> Bullet;
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	USceneComponent* SpawnPoint;
+
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float Speed;
 
@@ -44,6 +51,7 @@ protected:
 	void MoveUp(float Value);
 	void MoveRight(float Value);
 	void Move();
+	void Fire();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

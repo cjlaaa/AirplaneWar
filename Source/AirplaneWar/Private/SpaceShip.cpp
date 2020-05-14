@@ -8,6 +8,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Core/Public/Misc/App.h"
+#include "Engine/World.h"
+#include "AirplaneWar/Public/Bullet.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -22,13 +24,14 @@ ASpaceShip::ASpaceShip()
 	ShipSM->SetupAttachment(RootComponent);
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
 	CollisionComp->SetupAttachment(RootComponent);
+	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnPoint"));
+	SpawnPoint->SetupAttachment(ShipSM);
 
 	//// 设置正交相机
 	//CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CamaraComp"));
 	//CameraComp->SetupAttachment(RootComponent);
 	//CameraComp->SetProjectionMode(ECameraProjectionMode::Orthographic);
 	//CameraComp->SetOrthoWidth(2500);
-
 	
 	Speed = 1000;
 }
@@ -71,6 +74,16 @@ void ASpaceShip::Move()
 	AddActorWorldOffset(ConsumeMovementInputVector() * Speed * FApp::GetDeltaTime(), true);
 }
 
+void ASpaceShip::Fire()
+{
+	if (Bullet) 
+	{
+		FActorSpawnParameters SpawnParams;
+		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation());
+	}
+	
+}
+
 // Called every frame
 void ASpaceShip::Tick(float DeltaTime)
 {
@@ -87,5 +100,6 @@ void ASpaceShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAxis("MoveUp", this, &ASpaceShip::MoveUp);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceShip::MoveRight);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceShip::Fire);
 }
 
