@@ -39,12 +39,16 @@ protected:
 	TSubclassOf<ABullet> Bullet;
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	USceneComponent* SpawnPoint;
-
 	UPROPERTY(EditAnywhere, Category = "Move")
 	float Speed;
+	UPROPERTY(EditAnywhere, Category = "Fire")
+	float TimeBetweenShot;
+
+	FTimerHandle TimerHandle_BetweenShot;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
 
 	void LookAtCursor();
 
@@ -52,6 +56,9 @@ protected:
 	void MoveRight(float Value);
 	void Move();
 	void Fire();
+
+	void StartFire();
+	void EndFire();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

@@ -10,6 +10,7 @@
 #include "Core/Public/Misc/App.h"
 #include "Engine/World.h"
 #include "AirplaneWar/Public/Bullet.h"
+#include "TimerManager.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -34,6 +35,7 @@ ASpaceShip::ASpaceShip()
 	//CameraComp->SetOrthoWidth(2500);
 	
 	Speed = 1000;
+	TimeBetweenShot = 0.2;
 }
 
 // Called when the game starts or when spawned
@@ -84,6 +86,16 @@ void ASpaceShip::Fire()
 	
 }
 
+void ASpaceShip::StartFire()
+{
+	GetWorldTimerManager().SetTimer(TimerHandle_BetweenShot, this, &ASpaceShip::Fire, TimeBetweenShot, true, 0);
+}
+
+void ASpaceShip::EndFire()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle_BetweenShot);
+}
+
 // Called every frame
 void ASpaceShip::Tick(float DeltaTime)
 {
@@ -100,6 +112,7 @@ void ASpaceShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 	PlayerInputComponent->BindAxis("MoveUp", this, &ASpaceShip::MoveUp);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceShip::MoveRight);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceShip::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceShip::StartFire);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceShip::EndFire);
 }
 
