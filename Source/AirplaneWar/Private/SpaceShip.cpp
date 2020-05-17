@@ -83,7 +83,6 @@ void ASpaceShip::Fire()
 		FActorSpawnParameters SpawnParams;
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation());
 	}
-	
 }
 
 void ASpaceShip::StartFire()

@@ -6,6 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Enemy.generated.h"
 
+class USphereComponent;
+class ASpaceShip;
+
 UCLASS()
 class AIRPLANEWAR_API AEnemy : public APawn
 {
@@ -16,8 +19,27 @@ public:
 	AEnemy();
 
 protected:
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	USceneComponent* RootComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	USphereComponent* CollisionComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
+	UStaticMeshComponent* ShipSM;
+
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float Speed;
+
+	ASpaceShip* SpaceShip;
+	
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	void MoveTowardsPlayer(float DeltaTime);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SetColor();
 
 public:	
 	// Called every frame
