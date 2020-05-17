@@ -29,7 +29,7 @@ void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	// 获取玩家对象
+	// 鑾峰彇鐜╁瀵硅薄
 	SpaceShip = Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	SetColor();

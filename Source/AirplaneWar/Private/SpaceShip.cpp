@@ -34,7 +34,7 @@ ASpaceShip::ASpaceShip()
 	//CameraComp->SetProjectionMode(ECameraProjectionMode::Orthographic);
 	//CameraComp->SetOrthoWidth(2500);
 	
-	Speed = 1000;
+	Speed = 3000;
 	TimeBetweenShot = 0.2;
 }
 
@@ -81,7 +81,7 @@ void ASpaceShip::Fire()
 	if (Bullet) 
 	{
 		FActorSpawnParameters SpawnParams;
-		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation());
+		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParams);
 	}
 }
 

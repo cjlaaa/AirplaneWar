@@ -11,13 +11,13 @@ ABullet::ABullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// 设置组件
+	// 璁剧疆缁勪欢
 	RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
 	RootComponent = RootComp;
 	BulletSM = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BulletSM"));
 	BulletSM->SetupAttachment(RootComponent);
 
-	// 与根组件同级,不需要绑定到根组件上
+	// 涓庢牴缁勪欢鍚岀骇,涓嶉渶瑕佺粦瀹氬埌鏍圭粍浠朵笂
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComp"));
 }
 
