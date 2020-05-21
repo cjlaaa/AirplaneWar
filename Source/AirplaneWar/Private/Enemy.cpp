@@ -14,12 +14,14 @@ AEnemy::AEnemy()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
-	RootComponent = RootComp;
+	//RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
+	//RootComponent = RootComp;
+	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
+	//CollisionComp->SetupAttachment(RootComponent);
+	RootComponent = CollisionComp;
 	ShipSM = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipSM"));
 	ShipSM->SetupAttachment(RootComponent);
-	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
-	CollisionComp->SetupAttachment(RootComponent);
+	
 
 	Speed = 300;
 }

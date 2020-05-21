@@ -4,6 +4,8 @@
 #include "Bullet.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Enemy.h"
+#include "Engine/BlockingVolume.h"
 
 // Sets default values
 ABullet::ABullet()
@@ -33,5 +35,21 @@ void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABullet::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+	if (Enemy)
+	{
+		Enemy->Destroy();
+		Destroy();
+	}
+	else if (Cast<ABlockingVolume>(OtherActor))
+	{
+		Destroy();
+	}
 }
 

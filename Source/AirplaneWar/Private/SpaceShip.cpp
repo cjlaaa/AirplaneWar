@@ -11,6 +11,7 @@
 #include "Engine/World.h"
 #include "AirplaneWar/Public/Bullet.h"
 #include "TimerManager.h"
+#include "Enemy.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -113,5 +114,18 @@ void ASpaceShip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("MoveRight", this, &ASpaceShip::MoveRight);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ASpaceShip::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ASpaceShip::EndFire);
+}
+
+void ASpaceShip::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+
+	AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+	if (Enemy)
+	{
+		Enemy->Destroy();
+		UE_LOG(LogTemp,Warning, TEXT("Player is Dead"))
+		// Destroy();
+	}
 }
 

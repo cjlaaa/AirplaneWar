@@ -29,8 +29,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	UBoxComponent* SpawnArea;
 
-	ASpaceShip* SpaceShip;
+	UPROPERTY(EditAnywhere, Category = "Enemy")
 	float MinimumDistanceToPlayer;
+
+	ASpaceShip* SpaceShip;
 	FTimerHandle TimerHandle_Spawn;
 	float SpawnInterval;
 

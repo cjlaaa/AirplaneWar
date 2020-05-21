@@ -21,7 +21,7 @@ AEnemySpawner::AEnemySpawner()
 	SpawnArea = CreateDefaultSubobject<UBoxComponent>(TEXT("SpawnArea"));
 	SpawnArea->SetupAttachment(RootComponent);
 
-	MinimumDistanceToPlayer = 1200;
+	MinimumDistanceToPlayer = 12000;
 	SpawnInterval = 2;
 }
 
