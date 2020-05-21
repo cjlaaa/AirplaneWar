@@ -19,12 +19,12 @@ ASpaceShip::ASpaceShip()
 	PrimaryActorTick.bCanEverTick = true;
 
 	// 设置组件
-	RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
-	RootComponent = RootComp;
+	// RootComp = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp"));
+	// RootComponent = RootComp;
+	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
+	RootComponent = CollisionComp;
 	ShipSM = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipSM"));
 	ShipSM->SetupAttachment(RootComponent);
-	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
-	CollisionComp->SetupAttachment(RootComponent);
 	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnPoint"));
 	SpawnPoint->SetupAttachment(ShipSM);
 

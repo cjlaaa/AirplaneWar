@@ -20,8 +20,8 @@ public:
 	ASpaceShip();
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Component")
-	USceneComponent* RootComp;
+	// UPROPERTY(VisibleAnywhere, Category = "Component")
+	// USceneComponent* RootComp;
 
 	UPROPERTY(VisibleAnywhere,Category="Component")
 	USphereComponent* CollisionComp;
