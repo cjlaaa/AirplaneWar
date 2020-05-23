@@ -32,7 +32,13 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Enemy")
 	float MinimumDistanceToPlayer;
 
+	UPROPERTY(EditAnywhere, Category = "Spawn")
 	ASpaceShip* SpaceShip;
+
+	UPROPERTY(EditAnywhere, Category = "Enemy")
+	int MaxEnemyNum;
+
+	int CurrentEnemyCount;
 	FTimerHandle TimerHandle_Spawn;
 	float SpawnInterval;
 
@@ -44,4 +50,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void DecreaseEnemyCount();
 };

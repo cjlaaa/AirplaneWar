@@ -12,6 +12,7 @@
 #include "AirplaneWar/Public/Bullet.h"
 #include "TimerManager.h"
 #include "Enemy.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -37,6 +38,7 @@ ASpaceShip::ASpaceShip()
 	
 	Speed = 3000;
 	TimeBetweenShot = 0.2;
+	bDead = false;
 }
 
 // Called when the game starts or when spawned
@@ -79,7 +81,7 @@ void ASpaceShip::Move()
 
 void ASpaceShip::Fire()
 {
-	if (Bullet) 
+	if (Bullet && !bDead) 
 	{
 		FActorSpawnParameters SpawnParams;
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParams);
@@ -96,13 +98,27 @@ void ASpaceShip::EndFire()
 	GetWorldTimerManager().ClearTimer(TimerHandle_BetweenShot);
 }
 
+void ASpaceShip::RestartLevel()
+{
+	UGameplayStatics::OpenLevel(this, "MainScene");
+}
+
+void ASpaceShip::OnDeath()
+{
+	bDead = true;
+	CollisionComp->SetVisibility(false, true);
+	GetWorldTimerManager().SetTimer(TimerHandle_Restart, this, &ASpaceShip::RestartLevel, 2.0f, false);
+}
+
 // Called every frame
 void ASpaceShip::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	LookAtCursor();
-	Move();
+	if (!bDead) {
+		LookAtCursor();
+		Move();
+	}
 }
 
 // Called to bind functionality to input
@@ -124,8 +140,9 @@ void ASpaceShip::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (Enemy)
 	{
 		Enemy->Destroy();
-		UE_LOG(LogTemp,Warning, TEXT("Player is Dead"))
+		UE_LOG(LogTemp, Warning, TEXT("Player is Dead"));
 		// Destroy();
+		OnDeath();
 	}
 }
 

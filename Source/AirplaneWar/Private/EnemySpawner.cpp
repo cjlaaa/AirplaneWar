@@ -23,6 +23,8 @@ AEnemySpawner::AEnemySpawner()
 
 	MinimumDistanceToPlayer = 12000;
 	SpawnInterval = 2;
+	MaxEnemyNum = 5;
+	CurrentEnemyCount = 0;
 }
 
 // Called when the game starts or when spawned
@@ -52,8 +54,15 @@ FVector AEnemySpawner::GetGenerateLocation()
 
 void AEnemySpawner::SpawnEnemy()
 {
-	FActorSpawnParameters SpawnParams;
-	GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator, SpawnParams);
+	if (SpaceShip->GetBDead() == false && CurrentEnemyCount < MaxEnemyNum)
+	{
+		FActorSpawnParameters SpawnParams;
+		if (GetWorld()->SpawnActor<AEnemy>(Enemy, GetGenerateLocation(), FRotator::ZeroRotator, SpawnParams) != NULL)
+		{
+			CurrentEnemyCount++;
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *FString::SanitizeFloat(CurrentEnemyCount));
+		}
+	}
 }
 
 // Called every frame
@@ -61,5 +70,13 @@ void AEnemySpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AEnemySpawner::DecreaseEnemyCount()
+{
+	if (CurrentEnemyCount > 0) {
+		CurrentEnemyCount--;
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *FString::SanitizeFloat(CurrentEnemyCount));
+	}
 }
 

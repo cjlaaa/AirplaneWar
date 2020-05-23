@@ -45,6 +45,8 @@ protected:
 	float TimeBetweenShot;
 
 	FTimerHandle TimerHandle_BetweenShot;
+	FTimerHandle TimerHandle_Restart;
+	bool bDead;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -59,6 +61,9 @@ protected:
 
 	void StartFire();
 	void EndFire();
+
+	void RestartLevel();
+	void OnDeath();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -67,4 +72,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+	FORCEINLINE bool GetBDead() {
+		return bDead;
+	}
 };
