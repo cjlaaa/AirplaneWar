@@ -8,6 +8,9 @@
 
 class USphereComponent;
 class ASpaceShip;
+class AShipGameMode;
+class AEnemySpawner;
+
 
 UCLASS()
 class AIRPLANEWAR_API AEnemy : public APawn
@@ -32,7 +35,10 @@ protected:
 	float Speed;
 
 	ASpaceShip* SpaceShip;
-	
+	AShipGameMode* MyGameMode;
+	AEnemySpawner* EnemySpawner;
+
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -48,4 +54,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void OnDead();
 };

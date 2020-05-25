@@ -7,7 +7,6 @@
 #include "Bullet.generated.h"
 
 class UProjectileMovementComponent;
-class AEnemySpawner;
 
 UCLASS()
 class AIRPLANEWAR_API ABullet : public AActor
@@ -31,7 +30,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Component")
 	UProjectileMovementComponent* ProjectileMovementComp;
 
-	AEnemySpawner* EnemySpawner;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

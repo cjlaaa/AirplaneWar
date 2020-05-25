@@ -7,6 +7,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpaceShip.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "ShipGameMode.h"
+#include "EnemySpawner.h"
+
 
 // Sets default values
 AEnemy::AEnemy()
@@ -22,7 +25,6 @@ AEnemy::AEnemy()
 	ShipSM = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipSM"));
 	ShipSM->SetupAttachment(RootComponent);
 	
-
 	Speed = 300;
 }
 
@@ -35,6 +37,12 @@ void AEnemy::BeginPlay()
 	SpaceShip = Cast<ASpaceShip>(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	SetColor();
+
+	TArray<AActor*> EnemySpawnerArray;
+	UGameplayStatics::GetAllActorsOfClass(this, AEnemySpawner::StaticClass(), EnemySpawnerArray);
+	EnemySpawner = Cast<AEnemySpawner>(EnemySpawnerArray[0]);
+	
+	MyGameMode = Cast<AShipGameMode>(UGameplayStatics::GetGameMode(this));
 }
 
 void AEnemy::MoveTowardsPlayer(float DeltaTime)
@@ -42,6 +50,13 @@ void AEnemy::MoveTowardsPlayer(float DeltaTime)
 	FVector Direction =  (SpaceShip->GetActorLocation() - GetActorLocation()).GetSafeNormal();
 	AddActorWorldOffset(Direction * Speed * DeltaTime, true);
 	SetActorRotation(UKismetMathLibrary::FindLookAtRotation(GetActorLocation(),SpaceShip->GetActorLocation()));
+}
+
+void AEnemy::OnDead()
+{
+	EnemySpawner->DecreaseEnemyCount();
+	MyGameMode->IncreaseScore();
+	Destroy();
 }
 
 // Called every frame

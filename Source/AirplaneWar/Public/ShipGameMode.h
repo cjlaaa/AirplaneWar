@@ -13,5 +13,12 @@ UCLASS()
 class AIRPLANEWAR_API AShipGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+protected:
+	AShipGameMode();
+
+	UPROPERTY(BlueprintReadOnly)
+	int Score;
+public:
+	void IncreaseScore();
+
 };
