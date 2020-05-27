@@ -9,6 +9,7 @@
 class USphereComponent;
 class UCameraComponent;
 class ABullet;
+class USoundCue;
 
 UCLASS()
 class AIRPLANEWAR_API ASpaceShip : public APawn
@@ -48,9 +49,13 @@ protected:
 	FTimerHandle TimerHandle_Restart;
 	bool bDead;
 
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* GameOverCue;
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	USoundCue* ShootCue;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 
 	void LookAtCursor();
 

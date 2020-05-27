@@ -13,6 +13,7 @@
 #include "TimerManager.h"
 #include "Enemy.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 // Sets default values
 ASpaceShip::ASpaceShip()
@@ -85,6 +86,7 @@ void ASpaceShip::Fire()
 	{
 		FActorSpawnParameters SpawnParams;
 		GetWorld()->SpawnActor<ABullet>(Bullet, SpawnPoint->GetComponentLocation(), SpawnPoint->GetComponentRotation(), SpawnParams);
+		UGameplayStatics::PlaySoundAtLocation(this, ShootCue, GetActorLocation());
 	}
 }
 
@@ -107,6 +109,7 @@ void ASpaceShip::OnDeath()
 {
 	bDead = true;
 	CollisionComp->SetVisibility(false, true);
+	UGameplayStatics::PlaySoundAtLocation(this, GameOverCue, GetActorLocation());
 	GetWorldTimerManager().SetTimer(TimerHandle_Restart, this, &ASpaceShip::RestartLevel, 2.0f, false);
 }
 
